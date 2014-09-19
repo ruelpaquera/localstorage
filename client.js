@@ -165,7 +165,7 @@ if (_storage) {
     return 'localStorage';
   };
 
-  Store.localStorage.prototype.prefix = function(name) {
+  Store.localStorage.prototype.prefix = function() {
     var self = this;
     return _prefixDatabase(self.name);
   };
