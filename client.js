@@ -101,7 +101,7 @@ if (_storage) {
       // Noop, cant do much here
     }
 
-    migrationCallback({
+    migrationCallback.call(SAInstance, {
       version: oldVersion
     }, {
       version: newVersion
