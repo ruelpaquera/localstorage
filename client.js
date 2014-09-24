@@ -197,7 +197,7 @@ if (_storage) {
     } catch(err) {
       
       // Callback with error
-      callback(err.message);
+      callback(err);
 
     }
     
@@ -221,7 +221,7 @@ if (_storage) {
     } catch(err) {
 
       // Callback with error
-      callback(err.message);
+      callback(err);
 
     }
   };
@@ -241,7 +241,7 @@ if (_storage) {
     } catch(err) {
 
       // callback with error
-      callback(err.message);
+      callback(err);
 
     }
   };
@@ -276,7 +276,7 @@ if (_storage) {
     } catch(err) {
 
       // callback with error
-      callback(err.message);
+      callback(err);
 
     }
   };
@@ -310,7 +310,7 @@ if (_storage) {
     } catch(err) {
 
       // callback with error
-      callback(err.message);
+      callback(err);
 
     }
   };
@@ -335,7 +335,7 @@ if (_storage) {
     } catch(err) {
 
       // callback with error
-      callback(err.message);
+      callback(err);
 
     }
   };
