@@ -1,6 +1,6 @@
 Package.describe({
   name: "ground:localstorage",
-  version: "0.0.1",
+  version: "0.1.0",
   summary: "Adds localstorage adapter on client",
   git: "https://github.com/GroundMeteor/localstorage.git"
 });
@@ -9,7 +9,7 @@ Package.on_use(function (api) {
 
   if (api.versionsFrom) {
 
-    api.versionsFrom('METEOR@0.9.1');
+    api.versionsFrom('1.0');
 
     api.imply('ground:store@0.0.0');
     
