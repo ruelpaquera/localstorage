@@ -74,7 +74,7 @@ if (_storage) {
     try {
 
       // Get old record object
-      record = JSON.parse(oldRecordString) || {};
+      record = EJSON.parse(oldRecordString) || {};
 
     } catch(err) {
       // Noop, cant do much about it, we assume that data is lost
@@ -92,7 +92,7 @@ if (_storage) {
     try {
       
       // Create new record as string
-      var newRecordString = JSON.stringify(record);
+      var newRecordString = EJSON.stringify(record);
 
       // Store the new record
       _storage.setItem(recordName, newRecordString);
@@ -192,7 +192,7 @@ if (_storage) {
       var jsonObj = _storage.getItem(self.getPrefixedId(name));
       
       // Try to return the object of the parsed string
-      callback(null, JSON.parse(jsonObj));
+      callback(null, EJSON.parse(jsonObj));
 
     } catch(err) {
       
@@ -213,7 +213,7 @@ if (_storage) {
     try {
 
       // Stringify the object
-      var jsonObj = JSON.stringify(obj);
+      var jsonObj = EJSON.stringify(obj);
 
       // Try to set the stringified object
       callback(null, _storage.setItem(self.getPrefixedId(name), jsonObj));
@@ -463,12 +463,12 @@ if (_storage) {
           // Emit the event on the storage
           storageAdapter.emit('storage', {
             key: key,
-            newValue: JSON.parse(e.newValue),
-            oldValue: JSON.parse(e.oldValue),
+            newValue: EJSON.parse(e.newValue),
+            oldValue: EJSON.parse(e.oldValue),
             originalKey: e.key,
             updatedAt: new Date(e.timeStamp),
             url: e.url,
-            storage: storageAdapter,
+            storage: storageAdapter
           });
         }
 
