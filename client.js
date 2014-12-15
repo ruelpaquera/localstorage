@@ -74,7 +74,7 @@ if (_storage) {
     try {
 
       // Get old record object
-      record = EJSON.parse(oldRecordString) || {};
+      record = oldRecordString && EJSON.parse(oldRecordString) || {};
 
     } catch(err) {
       // Noop, cant do much about it, we assume that data is lost
@@ -191,11 +191,14 @@ if (_storage) {
       // Get the string value
       var jsonObj = _storage.getItem(self.getPrefixedId(name));
       
-      // Try to return the object of the parsed string
-      callback(null, EJSON.parse(jsonObj));
+      if (jsonObj) {      
+        // Try to return the object of the parsed string
+        callback(null, EJSON.parse(jsonObj));
+      } else {
+        callback(null, null);
+      }
 
     } catch(err) {
-      
       // Callback with error
       callback(err);
 
@@ -367,7 +370,7 @@ if (_storage) {
             var jsonObj = _storage.getItem(key);
             
             // Try to return the object of the parsed string
-            result[key.replace(regex, '')] = EJSON.parse(jsonObj);
+            result[key.replace(regex, '')] = jsonObj && EJSON.parse(jsonObj) || null;
 
           } catch(err) {
             // NOOP
@@ -463,8 +466,8 @@ if (_storage) {
           // Emit the event on the storage
           storageAdapter.emit('storage', {
             key: key,
-            newValue: EJSON.parse(e.newValue),
-            oldValue: EJSON.parse(e.oldValue),
+            newValue: e.newValue && EJSON.parse(e.newValue) || null,
+            oldValue: e.oldValue && EJSON.parse(e.oldValue) || null,
             originalKey: e.key,
             updatedAt: new Date(e.timeStamp),
             url: e.url,
