@@ -1,8 +1,20 @@
 {
   "dependencies": [
     [
+      "base64",
+      "1.0.1"
+    ],
+    [
+      "ejson",
+      "1.0.4"
+    ],
+    [
       "ground:store",
       "0.0.0"
+    ],
+    [
+      "json",
+      "1.0.1"
     ],
     [
       "meteor",
