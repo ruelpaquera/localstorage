@@ -340,6 +340,53 @@ if (_storage) {
     }
   };
 
+  Store.localStorage.prototype.toObject = function(callback) {
+    var self = this;
+
+    // Check if callback is function
+    if (typeof callback !== 'function')
+      throw new Error('Storage.localStorage.keys require a callback function');
+
+    // Result to return
+    var result = {};
+
+    try {
+
+      // Create the prefix test
+      var regex = new RegExp('^' + self.prefix());
+
+      for (var i = 0; i < _storage.length; i++) {
+        // Helper
+        var key = _storage.key(i);
+
+        // Test if the key is relevant to this store
+        if (regex.test(key)) {
+          try {
+            
+            // Get the string value
+            var jsonObj = _storage.getItem(key);
+            
+            // Try to return the object of the parsed string
+            result[key.replace(regex, '')] = EJSON.parse(jsonObj);
+
+          } catch(err) {
+            // NOOP
+          }          
+        }
+          
+      }
+
+      // Return the result
+      callback(null, result);
+      
+    } catch(err) {
+
+      // callback with error
+      callback(err);
+
+    }
+  };
+
   //////////////////////////////////////////////////////////////////////////////
   // WRAP EVENTEMITTER API
   //////////////////////////////////////////////////////////////////////////////
