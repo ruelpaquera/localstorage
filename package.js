@@ -1,6 +1,6 @@
 Package.describe({
   name: "ground:localstorage",
-  version: "0.1.5",
+  version: "0.1.6",
   summary: "Adds localstorage adapter on client",
   git: "https://github.com/GroundMeteor/localstorage.git"
 });
@@ -12,7 +12,7 @@ Package.onUse(function (api) {
     api.versionsFrom('1.0');
 
     api.imply('ground:store@0.1.0');
-    
+
     api.use([
       'random',
       'underscore',
@@ -20,7 +20,7 @@ Package.onUse(function (api) {
       'ground:store@0.1.0',
       'raix:eventemitter@0.1.0'
     ], 'client');
-    
+
   } else {
 
     api.imply('ground-store');
@@ -28,7 +28,7 @@ Package.onUse(function (api) {
       'random',
       'underscore',
       'eventemitter',
-      'ground-store'  
+      'ground-store'
     ], 'client');
 
   }
