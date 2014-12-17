@@ -11,13 +11,13 @@ Package.onUse(function (api) {
 
     api.versionsFrom('1.0');
 
-    api.imply('ground:store@0.0.0');
+    api.imply('ground:store@0.1.0');
     
     api.use([
       'random',
       'underscore',
       'ejson',
-      'ground:store@0.0.0',
+      'ground:store@0.1.0',
       'raix:eventemitter@0.1.0'
     ], 'client');
     
