@@ -191,12 +191,8 @@ if (_storage) {
       // Get the string value
       var jsonObj = _storage.getItem(self.getPrefixedId(name));
       
-      if (jsonObj) {      
-        // Try to return the object of the parsed string
-        callback(null, EJSON.parse(jsonObj));
-      } else {
-        callback(null, null);
-      }
+      // Try to return the object of the parsed string
+      callback(null, jsonObj && EJSON.parse(jsonObj) || jsonObj);
 
     } catch(err) {
       // Callback with error
@@ -370,7 +366,7 @@ if (_storage) {
             var jsonObj = _storage.getItem(key);
             
             // Try to return the object of the parsed string
-            result[key.replace(regex, '')] = jsonObj && EJSON.parse(jsonObj) || null;
+            result[key.replace(regex, '')] = jsonObj && EJSON.parse(jsonObj) || jsonObj;
 
           } catch(err) {
             // NOOP
@@ -466,8 +462,8 @@ if (_storage) {
           // Emit the event on the storage
           storageAdapter.emit('storage', {
             key: key,
-            newValue: e.newValue && EJSON.parse(e.newValue) || null,
-            oldValue: e.oldValue && EJSON.parse(e.oldValue) || null,
+            newValue: e.newValue && EJSON.parse(e.newValue) || e.newValue,
+            oldValue: e.oldValue && EJSON.parse(e.oldValue) || e.oldValue,
             originalKey: e.key,
             updatedAt: new Date(e.timeStamp),
             url: e.url,

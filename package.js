@@ -5,7 +5,7 @@ Package.describe({
   git: "https://github.com/GroundMeteor/localstorage.git"
 });
 
-Package.on_use(function (api) {
+Package.onUse(function (api) {
 
   if (api.versionsFrom) {
 
@@ -18,7 +18,7 @@ Package.on_use(function (api) {
       'underscore',
       'ejson',
       'ground:store@0.0.0',
-      'raix:eventemitter@0.0.2'
+      'raix:eventemitter@0.1.0'
     ], 'client');
     
   } else {
@@ -34,11 +34,11 @@ Package.on_use(function (api) {
   }
 
 
-  api.add_files('client.js', 'client');
-  // api.add_files('server.js', 'server');
+  api.addFiles('client.js', 'client');
+  // api.addFiles('server.js', 'server');
 });
 
-Package.on_test(function (api) {
+Package.onTest(function (api) {
   if (api.versionsFrom) {
     api.use('ground:localstorage', ['client', 'server']);
   } else {
@@ -47,7 +47,7 @@ Package.on_test(function (api) {
   api.use('test-helpers', 'client');
   api.use(['tinytest', 'underscore', 'ejson']);
 
-  api.add_files('client.tests.js', 'client');
-  //api.add_files('server.tests.js', 'server');
+  api.addFiles('client.tests.js', 'client');
+  //api.addFiles('server.tests.js', 'server');
 
 });
