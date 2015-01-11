@@ -344,7 +344,7 @@ if (_storage) {
 
     // Check if callback is function
     if (typeof callback !== 'function')
-      throw new Error('Storage.localStorage.keys require a callback function');
+      throw new Error('Storage.localStorage.toObject require a callback function');
 
     // Result to return
     var result = {};
