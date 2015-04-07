@@ -129,7 +129,7 @@ if (_storage) {
       throw new Error('Storage.localStorage "' + self.name + '" is already in use');
 
     // Make sure that the user dont use '.db.'
-    if (/.db./.test(self.name))
+    if (/\.db\./.test(self.name))
       throw new Error('Storage.localStorage "' + self.name + '" contains ".db." this is not allowed');
 
     // Set the size of db 0 === disable quota
