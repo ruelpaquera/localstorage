@@ -1,6 +1,6 @@
 Package.describe({
   name: "ground:localstorage",
-  version: "0.1.7",
+  version: "0.1.8",
   summary: "Adds localstorage adapter on client",
   git: "https://github.com/GroundMeteor/localstorage.git"
 });
