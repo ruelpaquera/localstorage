@@ -21,7 +21,9 @@ var _getLocalStorage = function() {
     storage.removeItem(uid);
 
     // If the test failed then set the storage to null
-    if (fail) storage = null;
+    if (fail) {
+      storage = null;
+    }
 
   } catch(e) {
     // Noop, cant do much about it
@@ -37,7 +39,7 @@ var _storage = _getLocalStorage();
 
 // Check to see if we got any localstorage to add
 if (_storage) {
-  
+
   // Create a namespace to track storage name spacing
   var _localStorageNS = {};
 
@@ -70,7 +72,7 @@ if (_storage) {
 
     // Set the default empty record object
     var record = {};
-    
+
     try {
 
       // Get old record object
@@ -90,7 +92,7 @@ if (_storage) {
     record.version = SAInstance.version;
 
     try {
-      
+
       // Create new record as string
       var newRecordString = EJSON.stringify(record);
 
@@ -112,8 +114,9 @@ if (_storage) {
   Store.localStorage = function(options) {
     var self = this;
 
-    if (!(self instanceof Store.localStorage))
+    if (!(self instanceof Store.localStorage)) {
       return new Store.localStorage(self.name);
+    }
 
     // Inheritance EventEmitter
     self.eventemitter = new EventEmitter();
@@ -125,12 +128,14 @@ if (_storage) {
     self.name = options.name;
 
     // Check to see if the storage is already defined
-    if (_localStorageNS[self.name])
+    if (_localStorageNS[self.name]) {
       throw new Error('Storage.localStorage "' + self.name + '" is already in use');
+    }
 
     // Make sure that the user dont use '.db.'
-    if (/\.db\./.test(self.name))
+    if (/\.db\./.test(self.name)) {
       throw new Error('Storage.localStorage "' + self.name + '" contains ".db." this is not allowed');
+    }
 
     // Set the size of db 0 === disable quota
     // TODO: Implement
@@ -142,7 +147,7 @@ if (_storage) {
 
     // Set migration function
     var migrationFunction = options.migration || function(oldRecord, newRecord) {
-      
+
       // Check storage versions
       if (oldRecord.version !== newRecord.version) {
         // We allow the user to customize a migration algoritme but here we just
@@ -183,14 +188,15 @@ if (_storage) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.getItem require a callback function');
+    }
 
     try {
-      
+
       // Get the string value
       var jsonObj = _storage.getItem(self.getPrefixedId(name));
-      
+
       // Try to return the object of the parsed string
       callback(null, jsonObj && EJSON.parse(jsonObj) || jsonObj);
 
@@ -199,15 +205,16 @@ if (_storage) {
       callback(err);
 
     }
-    
+
   };
 
   Store.localStorage.prototype.setItem = function(name, obj, callback) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.setItem require a callback function');
+    }
 
     try {
 
@@ -229,14 +236,15 @@ if (_storage) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.removeItem require a callback function');
+    }
 
     try {
 
       // Try to remove the item
       callback(null, _storage.removeItem(self.getPrefixedId(name)));
-      
+
     } catch(err) {
 
       // callback with error
@@ -249,8 +257,9 @@ if (_storage) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.clear require a callback function');
+    }
 
     try {
 
@@ -264,14 +273,15 @@ if (_storage) {
         } else {
 
           // Iterate over keys and removing them one by one
-          for (var i=0; i < keys.length; i++)
+          for (var i=0; i < keys.length; i++) {
             self.removeItem(keys[i], noop);
+          }
 
           // Callback
           callback(null, keys.length);
-        } 
+        }
       });
-      
+
     } catch(err) {
 
       // callback with error
@@ -284,8 +294,9 @@ if (_storage) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.keys require a callback function');
+    }
 
     // Result to return
     var result = [];
@@ -298,14 +309,15 @@ if (_storage) {
       for (var i = 0; i < _storage.length; i++) {
 
         // Test if the key is relevant to this store
-        if (regex.test(_storage.key(i)))
+        if (regex.test(_storage.key(i))) {
           // Add the name
           result.push(_storage.key(i).replace(regex, ''));
+        }
       }
 
       // Return the result
       callback(null, result);
-      
+
     } catch(err) {
 
       // callback with error
@@ -318,19 +330,20 @@ if (_storage) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.length require a callback function');
+    }
 
     try {
 
       // Get the keys
       self.keys(function(error, keys) {
-        
+
         // Return the length
         callback(error, keys && keys.length || null);
 
       });
-      
+
     } catch(err) {
 
       // callback with error
@@ -343,8 +356,9 @@ if (_storage) {
     var self = this;
 
     // Check if callback is function
-    if (typeof callback !== 'function')
+    if (typeof callback !== 'function') {
       throw new Error('Storage.localStorage.toObject require a callback function');
+    }
 
     // Result to return
     var result = {};
@@ -361,23 +375,23 @@ if (_storage) {
         // Test if the key is relevant to this store
         if (regex.test(key)) {
           try {
-            
+
             // Get the string value
             var jsonObj = _storage.getItem(key);
-            
+
             // Try to return the object of the parsed string
             result[key.replace(regex, '')] = jsonObj && EJSON.parse(jsonObj) || jsonObj;
 
           } catch(err) {
             // NOOP
-          }          
+          }
         }
-          
+
       }
 
       // Return the result
       callback(null, result);
-      
+
     } catch(err) {
 
       // callback with error
@@ -393,22 +407,22 @@ if (_storage) {
   // Wrap the Event Emitter Api "on"
   Store.localStorage.prototype.on = function(/* arguments */) {
     this.eventemitter.on.apply(this.eventemitter, _.toArray(arguments));
-  }; 
+  };
 
   // Wrap the Event Emitter Api "once"
   Store.localStorage.prototype.once = function(/* arguments */) {
     this.eventemitter.once.apply(this.eventemitter, _.toArray(arguments));
-  }; 
+  };
 
   // Wrap the Event Emitter Api "off"
   Store.localStorage.prototype.off = function(/* arguments */) {
     this.eventemitter.off.apply(this.eventemitter, _.toArray(arguments));
-  }; 
+  };
 
   // Wrap the Event Emitter Api "emit"
   Store.localStorage.prototype.emit = function(/* arguments */) {
     this.eventemitter.emit.apply(this.eventemitter, _.toArray(arguments));
-  }; 
+  };
 
 
   // Add api helpers

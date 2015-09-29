@@ -1,7 +1,5 @@
-"use strict";
-
 function equals(a, b) {
-  return !!(JSON.stringify(a) === JSON.stringify(b));
+  return Boolean(JSON.stringify(a) === JSON.stringify(b));
 }
 
 Tinytest.addAsync('GroundDB - localstorage - test', function(test, complete) {
@@ -10,17 +8,17 @@ Tinytest.addAsync('GroundDB - localstorage - test', function(test, complete) {
     version: 1.0
   });
 
-  test.isTrue(typeof foo.addListener == 'function', 'Got no event emitter?');
+  test.isTrue(typeof foo.addListener === 'function', 'Got no event emitter?');
 
   foo.addListener('storage', function(e) {
     console.log('Storage event', e);
   });
 
-  test.isTrue(foo.typeName() == 'localStorage', 'Store not found?');
+  test.isTrue(foo.typeName() === 'localStorage', 'Store not found?');
 
   test.isTrue(foo instanceof Store.localStorage, 'Storage not an instance of localStorage?');
 
-  foo.setItem('bar', 'test', function(err, result) {
+  foo.setItem('bar', 'test', function(err) {
     if (err) {
       test.fail('Could not setItem');
     } else {
@@ -31,7 +29,7 @@ Tinytest.addAsync('GroundDB - localstorage - test', function(test, complete) {
         } else {
           test.equal(bar, 'test', 'Storage is corrupt');
 
-          foo.removeItem('bar', function(err, result) {
+          foo.removeItem('bar', function() {
             foo.getItem('bar', function(err, bar) {
               if (err) {
                 test.fail('Could not getItem');
@@ -40,7 +38,7 @@ Tinytest.addAsync('GroundDB - localstorage - test', function(test, complete) {
                 complete();
               }
 
-            });            
+            });
           });
         }
 
@@ -58,7 +56,7 @@ Tinytest.addAsync('GroundDB - localstorage - test object', function(test, comple
     version: 1.0
   });
 
-  foo.setItem('bar', { bar: 'test' }, function(err, result) {
+  foo.setItem('bar', { bar: 'test' }, function(err) {
     if (err) {
       test.fail('Could not setItem');
     } else {
@@ -69,7 +67,7 @@ Tinytest.addAsync('GroundDB - localstorage - test object', function(test, comple
         } else {
           test.equal(bar.bar, 'test', 'Storage is corrupt');
 
-          foo.removeItem('bar', function(err, result) {
+          foo.removeItem('bar', function() {
             foo.getItem('bar', function(err, bar) {
               if (err) {
                 test.fail('Could not getItem');
@@ -78,7 +76,7 @@ Tinytest.addAsync('GroundDB - localstorage - test object', function(test, comple
                 complete();
               }
 
-            });            
+            });
           });
         }
 
@@ -111,7 +109,7 @@ Tinytest.addAsync('GroundDB - localstorage - test namespace / keys / clear', fun
     foo.setItem('foo'+i, 'foo'+i, noop);
   }
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 10; i++) { // jshint ignore: line
     barKeys.push('bar'+i);
     bar.setItem('bar'+i, 'bar'+i, noop);
   }
@@ -138,7 +136,7 @@ Tinytest.addAsync('GroundDB - localstorage - test namespace / keys / clear', fun
   });
 
   bar.clear(noop);
-  
+
   bar.keys(function(err, keys) {
     test.equal(keys.length, 0, 'Bar keys length dont match');
   });
