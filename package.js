@@ -7,16 +7,16 @@ Package.describe({
 
 Package.onUse(function (api) {
 
-  api.versionsFrom('1.2');
+  // api.versionsFrom('1.2');
 
-  api.imply('ground:store@0.1.2');
+  api.imply('ground:store');
 
   api.use([
     'random',
     'underscore',
     'ejson',
     'ground:store',
-    'raix:eventemitter@0.1.3'
+    'raix:eventemitter'
   ], 'client');
 
   api.addFiles('client.js', 'client');
